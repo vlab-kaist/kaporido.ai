@@ -22,4 +22,5 @@ RUN pip3 install -r requirements.txt
 COPY build/index.js /KP/build/index.js
 
 # Run server
+WORKDIR /KP
 ENTRYPOINT ["node", "/KP/build/index.js"]

@@ -6,7 +6,8 @@
   "scripts": {
     "run": "pnpm bedrock --entry=src/index.ts --dist=build/index.js --dev",
     "build": "pnpm bedrock --entry=src/index.ts --dist=build/index.js",
-    "build:docker": "npm run build &&  docker build -t asia.gcr.io/hancomac/kaporido --platform linux/amd64 ."
+    "build:docker": "npm run build &&  docker build -t asia.gcr.io/hancomac/kaporido --platform linux/amd64 .",
+    "deploy": " pnpx @hancomeducation/crunchy --image=kaporido --svc=kaporido"
   },
   "keywords": [],
   "author": "",
