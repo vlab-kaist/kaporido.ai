@@ -1,0 +1,15 @@
+{
+  "name": "kaporido.ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "pnpm bedrock --entry=src/index.ts --dist=build/index.js --dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hancomeducation/bedrock": "^1.7.3"
+  }
+}

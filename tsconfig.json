@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2021",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types/express.d.ts"
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "$util/*": [
+        "util/*"
+      ],
+      "$run/*": [
+        "run/*"
+      ],
+      "$svc/*": [
+        "svc/*"
+      ],
+      "$types/*": [
+        "types/*"
+      ],
+      "$api/*": [
+        "api/*"
+      ],
+      "$api": [
+        "api/_api.ts"
+      ],
+      "$svc": [
+        "svc"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
