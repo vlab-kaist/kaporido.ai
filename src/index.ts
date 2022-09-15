@@ -5,17 +5,23 @@ declare const config: { version: string, commitHash: string, commitCount: number
 
 App({
     config, port: 5500, name: 'kaporido', cb: async ({ws}) => {
-        ws('/game', (ws, req) => {
-            const process = spawn('python3', ['/KP/neopjuki/src/mcts.py', '--trials=1', '--workers=2', '--no-debug', '--depth=1', '--io=True', '--p2e=True'], {})
+        ws('/game/:type', (ws, {params: {type}}) => {
+            const process = spawn('python3', ['./neopjuki/src/mcts.py', '--trials=1', '--workers=12', '--debug', '--depth=1', '--io=True', ...(type === 'p2e' ? ['--p2e=True'] : [])], {})
             ws.onmessage = (e) => {
                 process.stdin.write(e.data.toString() + '\n')
             }
+            let buffer = '', timeout;
             process.stdout.on('data', (data) => {
-                data = data.toString().split('\n')
-                for (const line of data) {
-                    console.log(line)
+                buffer += data
+                for (const line of data.toString().split('\n')) {
                     if (line[0] !== '0' && line[0] !== '1' && line[0] !== '2' && line[0] !== '3') continue;
                     ws.send(line)
+
+                    if (timeout) clearTimeout(timeout)
+                    timeout = setTimeout(() => {
+                        console.log(buffer)
+                        buffer = ''
+                    }, 200)
                 }
             })
             process.stderr.on('data', (data) => {
