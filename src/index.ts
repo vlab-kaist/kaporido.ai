@@ -6,7 +6,28 @@ declare const config: { version: string, commitHash: string, commitCount: number
 App({
     config, port: 5500, name: 'kaporido', cb: async ({ws}) => {
         ws('/game/:type', (ws, {params: {type}}) => {
-            const process = spawn('python3', ['./neopjuki/src/mcts.py', '--trials=1', '--workers=12', '--debug', '--depth=1', '--io=True', ...(type === 'p2e' ? ['--p2e=True'] : [])], {})
+            const runner = 'final' as string
+            let process;
+            switch (runner) {
+                case 'planb':
+                    process = spawn('/Users/seo_hyun/PycharmProjects/venv/bin/python3.9', ['planb.py', /*'--trials=1', '--workers=12', '--debug', '--depth=1',*/ '--io=True', ...(type === 'p2e' ? ['--p2e=True'] : [])], {
+                        cwd: 'KaPorido_PlanB'
+                    })
+                    break
+                case 'mcts':
+                    process = spawn('python3', ['./neopjuki/src/mcts.py', '--trials=1', '--workers=12', '--debug', '--depth=1', '--io=True', ...(type === 'p2e' ? ['--p2e=True'] : [])], {})
+                    break
+                case 'final':
+                    process = spawn('/Users/seo_hyun/PycharmProjects/venv/bin/python3.9', ['run.py', /*'--trials=1', '--workers=12', '--debug', '--depth=1',*/ '--io=True', ...(type === 'p2e' ? ['--p2e=True'] : [])], {
+                        cwd: 'neopjuki/src'
+                    })
+                    break
+                case 'agent':
+                    process = spawn('/Users/seo_hyun/PycharmProjects/venv/bin/python3.9', ['run_2.py', /*'--trials=1', '--workers=12', '--debug', '--depth=1',*/ '--io=True', ...(type === 'p2e' ? ['--p2e=True'] : [])], {
+                        cwd: 'neopjuki/src'
+                    })
+                    break
+            }
             ws.onmessage = (e) => {
                 process.stdin.write(e.data.toString() + '\n')
             }
@@ -31,7 +52,7 @@ App({
                 console.log(code)
                 ws.close()
             })
-            ws.close = () => {
+            ws.onclose = () => {
                 process.kill()
             }
         })

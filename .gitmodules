@@ -1,3 +1,6 @@
 [submodule "neopjuki"]
 	path = neopjuki
 	url = https://github.com/kaist-postech-2022/neopjuki.git
+[submodule "KaPorido_PlanB"]
+	path = KaPorido_PlanB
+	url = https://github.com/kaist-postech-2022/KaPorido_PlanB.git
